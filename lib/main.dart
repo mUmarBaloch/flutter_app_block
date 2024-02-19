@@ -34,11 +34,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final _platformBatteryPercentage  = MethodChannel('com.flutter.batteryPercentage');
   int batteryPercentage = 0;
-
-  @override
-  void initState() async{
-  final _batteryPercentage = await  _platformBatteryPercentage.invokeMethod('getBatteryPercentage');
+getBatteryPercentage()async{
+   final _batteryPercentage = await  _platformBatteryPercentage.invokeMethod('getBatteryPercentage');
   batteryPercentage =  _batteryPercentage;
+  setState(() {
+    
+  });
+}
+  @override
+  void initState() {
+ 
     super.initState();
   }
 
@@ -46,6 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     
     return Scaffold(
+      floatingActionButton: FloatingActionButton(onPressed: getBatteryPercentage,child:Text('refresh')),
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title,style: TextStyle(fontSize: 14),),
