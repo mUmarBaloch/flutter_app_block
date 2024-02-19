@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,12 +11,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Battery Status With Method Channel (kotlin)',
+      title: 'Flutter With Method Channel (kotlin)',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Battery Status With Method Channel (kotlin)'),
+      home: const MyHomePage(title: 'Flutter With Method Channel (kotlin)'),
     );
   }
 }
@@ -31,17 +32,23 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  final _platformBatteryPercentage  = MethodChannel('com.flutter.batteryPercentage');
+  int batteryPercentage = 0;
 
-  int _batteryStatus = 0;
-
-  
+  @override
+  void initState() async{
+  final _batteryPercentage = await  _platformBatteryPercentage.invokeMethod('getBatteryPercentage');
+  batteryPercentage =  _batteryPercentage;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Text(widget.title,style: TextStyle(fontSize: 14),),
       ),
       body: Center(
         child: Column(
@@ -51,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
               'You have pushed the button this many times:',
             ),
             Text(
-              'your battery is $_batteryStatus',
+              'your battery is $batteryPercentage %',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
           ],
