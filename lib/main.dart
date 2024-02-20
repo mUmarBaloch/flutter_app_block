@@ -32,11 +32,11 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  final _platformBatteryPercentage  = MethodChannel('com.flutter.batteryPercentage');
+  final _platformBatteryPercentage  = const MethodChannel('samples.flutter.dev/battery');
   int batteryPercentage = 0;
 getBatteryPercentage()async{
-   final _batteryPercentage = await  _platformBatteryPercentage.invokeMethod('getBatteryPercentage');
-  batteryPercentage =  _batteryPercentage;
+   final batteryLevel = await  _platformBatteryPercentage.invokeMethod('getBatteryLevel');
+  batteryPercentage =  batteryLevel;
   setState(() {
     
   });
@@ -51,10 +51,10 @@ getBatteryPercentage()async{
   Widget build(BuildContext context) {
     
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: getBatteryPercentage,child:Text('refresh')),
+      floatingActionButton: FloatingActionButton(onPressed: getBatteryPercentage,child:const Text('refresh')),
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title,style: TextStyle(fontSize: 14),),
+        title: Text(widget.title,style:const TextStyle(fontSize: 14),),
       ),
       body: Center(
         child: Column(
