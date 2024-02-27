@@ -65,7 +65,7 @@ late Timer timer;
   @override
   void initState() {
   
-   timer = Timer.periodic(const Duration(milliseconds: 200), (timer) {getIsCharging(); });
+   timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {getIsCharging();getBatteryPercentage(); });
     super.initState();
   }
 
@@ -78,35 +78,40 @@ late Timer timer;
   Widget build(BuildContext context) {
     
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed:(){ 
-        getBatteryPercentage();
-        getIsCharging();
-        print(getIsCharging());
-        },child:const Text('refresh')),
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title,style:const TextStyle(fontSize: 14),),
-      ),
+    
+      backgroundColor: Colors.black,
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+         mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+        
+          Stack(
+            alignment: Alignment.center,
+            children: [
            
-            Text(
-              'your battery is $batteryPercentage %',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-           const SizedBox(height: 10,),
-           if(isCharging==true)
+               if(isCharging==true)
            ...
            [
             Container(
-              width: 80,
-              height: 80,
-              decoration: const BoxDecoration(image:  DecorationImage(image:
+              margin: EdgeInsets.only(top:140),
+              width: 200,
+              height: 200,
+              decoration: const BoxDecoration(
+               
+                image:  DecorationImage(
+                
+                image:
                NetworkImage('https://assets.awwwards.com/awards/external/2016/11/583eaee9a9f15.gif'),
                )),
-            ),]
+            ),],
+                 Text(
+                   ' $batteryPercentage %',
+                   style: const TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold),
+                 
+                 ),
+            ],
+          ),
+          
           ],
         ),
       ),
